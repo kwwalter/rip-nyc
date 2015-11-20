@@ -20,7 +20,7 @@ var PORT    = process.env.PORT || 4646,
 
 // SET
 
-mongoose.set('debug', true);
+// mongoose.set('debug', true);
 
 server.set('views', './views');
 server.set('view engine', 'ejs');
@@ -54,4 +54,24 @@ server.use(function(req, res, next){
 server.get('/wicked-secret-test', function(req, res){
   res.write("welcome to my craptastic app!");
   res.end();
+});
+
+//////////////////////
+// MORE ROUTES HERE //
+//////////////////////
+
+// failsafe in case someone gets to where they're not supposed to be..
+
+server.use(function(req, res, next){
+  res.write("You've reached the end of the road, pal.");
+  res.end();
+});
+
+// server listen and mongoose connect.. but might not need mongoose.
+
+// mongoose.connect(MONGOURI + "/" + dbname, function(){
+//   console.log("DATABASE IS UP!");
+// });
+server.listen(PORT, function() {
+  console.log("SERVER IS UP ON PORT: ", PORT);
 });
