@@ -56,6 +56,10 @@ server.get('/wicked-secret-test', function(req, res){
   res.end();
 });
 
+server.get('/', function(req, res){
+  res.render('home');
+});
+
 //////////////////////
 // MORE ROUTES HERE //
 //////////////////////
