@@ -27,11 +27,11 @@
       var ethCount = 0;
 
       var promise = $.ajax({
-        url:'https://data.cityofnewyork.us/resource/25th-nujf.json',
+        url:'https://data.cityofnewyork.us/resource/g374-eanh.json',
         method: "GET",
         data: {
-          nm: name,
-          gndr: gender
+          nm: name.toUpperCase(),
+          gndr: gender.toUpperCase()
         },
         success: function(data){
             console.log("here's the data: ", data);
@@ -51,7 +51,11 @@
               // no idea why this isn't working, but will come back to it
               console.log("likelyEthnicity: ", likelyEthnicity);
               if (likelyEthnicity === "ASIAN AND PACIFIC ISLANDER") {
-                likelyEthnicity = "ASIAN %26 PACIFIC ISLANDER";
+                // can't get this working with the escape character, so just going to fake it for now.
+                // this is working when I type the query string into the address bar, but not here for some reason.
+                // likelyEthnicity = "ASIAN%20%26%20PACIFIC%20ISLANDER";
+
+                likelyEthnicity = "NON-HISPANIC WHITE";
               }
             }
         },
@@ -62,26 +66,30 @@
         }
       });
       promise.done(function(responseData){
-        console.log("promise finished, here's responseData: ", responseData);
+        // console.log("promise finished, here's responseData: ", responseData);
 
         // beginning second ajax call.
         var promise2 = $.ajax({
-          url: 'https://data.cityofnewyork.us/resource/jb7j-dtam.json',
+          url: 'https://data.cityofnewyork.us/resource/uvxr-2jwn.json',
           method: "GET",
           data: {
             sex: gender,
-            ethnicity: likelyEthnicity
+            ethnicity: likelyEthnicity,
+            year: 2008
           },
           success: function(data2){
-            // console.log("in promise2..");
-            // console.log("name: ", name);
-            // console.log("age: ", age);
-            // console.log("ethnicity", likelyEthnicity);
-            // console.log("sex: ", gender);
-            // the five lines above are logging correct data, but data2 isn't showing up.. 
             console.log("here's data2: ", data2);
-            if(data2.legth === 0) {
-              $('#result').append('<p>No data found... this really doesn\'t bode well for you,' + name + '</p>');
+            if(data2.length === 0) {
+              $('#result').append('<p>No data found... this really doesn\'t bode well for you, ' + name + '!</p>');
+            } else {
+              $('#result').append('<h1>OH NO</h1>');
+              var noDupes = [];
+              for (var j = 0; j < data2.length; j++) {
+                if (data2[j].percent > 0 && noDupes.indexOf(data2[j].cause_of_death) < 0) {
+                  $('#result').append('<p>There is a ' + data2[j].percent + ' percent chance that you could die from ' + data2[j].cause_of_death.toLowerCase() + '. SpoOooOOOooky!</p>');
+                  noDupes.push(data2[j].cause_of_death);
+                }
+              }
             }
           },
           error: function(jqXHR, status, error){
@@ -90,14 +98,21 @@
               console.log(error);
           }
         });
+
+        promise2.done(function(responseData2){
+          // console.log("promise2 finished, here's responseData2: ", responseData2);
+
+          // and now time for the third and final ajax call!
+          
+        });
+
+        promise2.error(function(responseError2){
+          console.log("promise2 failed, here's responseError2: ", responseError2);
+        });
       });
 
-      promise2.done(function(responseData2){
-        console.log("promise2 finished, here's responseData2: ", responseData2);
-      });
-
-      promise2.error(function(responseError2){
-        console.log("promise2 failed, here's responseError2: ", responseError2);
+      promise.error(function(responseError){
+        console.log("promise failed, here's responseError: ", responseError);
       });
     });
   });
