@@ -5,15 +5,21 @@
 }
 
 body {
-  background-color: black;
-  color: orange;
+  background-color: grey;
+  font-family: sans-serif;
+  color: white;
+  transition: 3s;
 }
 
-#home > img {
-  display: block;
+#home-img {
+  /*display: block;*/
   height: 300px;
   margin: 0 auto;
   padding-top: 1rem;
+}
+
+.hidden {
+  display: none;
 }
 
 #home > h3, h4 {

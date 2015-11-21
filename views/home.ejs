@@ -1,15 +1,104 @@
 <div id="home">
   <h3>Enter your name and age below</h3>
   <h4>...if you dare!</h4>
-  <form action="/userinfo" method="post">
-    <input type="text" name="user[name]" placeholder="Your first name">
-    <input type="number" name="user[age]" placeholder="Your current age">
-    <select name="user[gender]">
+  <!-- <form action="/userinfo" method="post"> -->
+    <input type="text" id="name" placeholder="Your first name">
+    <input type="number" id="age" placeholder="Your current age">
+    <select id="gender">
       <option value="female">female</option>
       <option value="male">male</option>
-      <option value="other">other</option>
+      <!-- <option value="other">other</option> hard to do this one... maybe later? -->
     </select>
-    <input type="submit" value="Give me the bad news">
-  </form>
-  <img src="https://media.giphy.com/media/TGHXd9J6mK6sM/giphy.gif" />
+    <input id="submit" type="submit" value="Give me the bad news">
+  <!-- </form> -->
+  <img id="home-img" class="hidden" src="https://media.giphy.com/media/TGHXd9J6mK6sM/giphy.gif" />
 </div>
+<div id="result">
+</div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#submit').click(function(event){
+      $('div > p').html('');
+      // event.preventDefault(); // what does this do?
+      var name = $('#name').val();
+      var age = $('#age').val();
+      var gender = $('#gender').val();
+      var likelyEthnicity;
+      var ethCount = 0;
+
+      var promise = $.ajax({
+        url:'https://data.cityofnewyork.us/resource/25th-nujf.json',
+        method: "GET",
+        data: {
+          nm: name,
+          gndr: gender
+        },
+        success: function(data){
+            console.log("here's the data: ", data);
+            $("body").css({"background-color": "black", "color": "red"});
+            $("#home-img").removeClass("hidden");
+            $("#home-img").css("display", "block");
+            if (data.length === 0) {
+              $('#result').append('<p>No data found... you\'re probably going to live forever!</p>');
+            } else {
+              for (var i = 0; i < data.length; i++) {
+                if (data[i].cnt > ethCount) {
+                  likelyEthnicity = data[i].ethcty;
+                  ethCount = data[i].cnt;
+                  console.log("ethCount is now: ", ethCount);
+                }
+              }
+              // no idea why this isn't working, but will come back to it
+              console.log("likelyEthnicity: ", likelyEthnicity);
+              if (likelyEthnicity === "ASIAN AND PACIFIC ISLANDER") {
+                likelyEthnicity = "ASIAN %26 PACIFIC ISLANDER";
+              }
+            }
+        },
+        error: function(jqXHR, status, error){
+            console.log(jqXHR);
+            console.log(status);
+            console.log(error);
+        }
+      });
+      promise.done(function(responseData){
+        console.log("promise finished, here's responseData: ", responseData);
+
+        // beginning second ajax call.
+        var promise2 = $.ajax({
+          url: 'https://data.cityofnewyork.us/resource/jb7j-dtam.json',
+          method: "GET",
+          data: {
+            sex: gender,
+            ethnicity: likelyEthnicity
+          },
+          success: function(data2){
+            // console.log("in promise2..");
+            // console.log("name: ", name);
+            // console.log("age: ", age);
+            // console.log("ethnicity", likelyEthnicity);
+            // console.log("sex: ", gender);
+            // the five lines above are logging correct data, but data2 isn't showing up.. 
+            console.log("here's data2: ", data2);
+            if(data2.legth === 0) {
+              $('#result').append('<p>No data found... this really doesn\'t bode well for you,' + name + '</p>');
+            }
+          },
+          error: function(jqXHR, status, error){
+              console.log(jqXHR);
+              console.log(status);
+              console.log(error);
+          }
+        });
+      });
+
+      promise2.done(function(responseData2){
+        console.log("promise2 finished, here's responseData2: ", responseData2);
+      });
+
+      promise2.error(function(responseError2){
+        console.log("promise2 failed, here's responseError2: ", responseError2);
+      });
+    });
+  });
+</script>

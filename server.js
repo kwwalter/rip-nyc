@@ -44,6 +44,7 @@ server.use(methodOverride('_method'));
 
 server.use(function(req, res, next){
   console.log("*************** [ REQ START ] ***************");
+  console.log("RES DOT LOCALS: \n", res.locals);
   console.log("REQ DOT BODY: \n", req.body);
   console.log("REQ DOT PARAMS: \n", req.params);
   console.log("*************** [ REQ END ] ***************");
@@ -61,14 +62,26 @@ server.get('/', function(req, res){
   res.render('home');
 });
 
-server.post('/userinfo', function(req, res){
-  var name = req.body.user.name;
-  var age = req.body.user.age;
-  console.log("name is: ", name);
-  console.log("age is: ", age);
+// server.post('/userinfo', function(req, res){
+//   // going to try storing in locals as well.
+//   res.locals.name = req.body.user.name;
+//   res.locals.age = req.body.user.age;
+//   res.locals.gender = req.body.user.gender;
+//
+//   var name = req.body.user.name;
+//   var age = req.body.user.age;
+//   var gender = req.body.user.gender;
+//   console.log("name is: ", name);
+//   console.log("age is: ", age);
+//   console.log("gender is: ", gender);
+//
+//   res.redirect(302, 'https://data.cityofnewyork.us/resource/25th-nujf.json?gndr=' + gender + '&nm=' + name);
+// });
 
-  server.get('')
-});
+// server.get('https://data.cityofnewyork.us/resource/25th-nujf.json?gndr=:gender&nm=:name', function(req, res){
+//   console.log("ajax res: ", res);
+//   res.redirect(302, '/');
+// });
 
 //////////////////////
 // MORE ROUTES HERE //
