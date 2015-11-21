@@ -3,7 +3,7 @@
   <h4>...if you dare!</h4>
   <!-- <form action="/userinfo" method="post"> -->
     <input type="text" id="name" placeholder="Your first name">
-    <input type="number" id="age" placeholder="Your current age">
+    <input type="number" id="age" min="1" placeholder="Your current age">
     <select id="gender">
       <option value="female">female</option>
       <option value="male">male</option>
@@ -39,7 +39,8 @@
             $("#home-img").removeClass("hidden");
             $("#home-img").css("display", "block");
             if (data.length === 0) {
-              $('#result').append('<p>No data found... you\'re probably going to live forever!</p>');
+              $('#result').append('<p>Your name could not be found on the guest list... there\'s a decent chance that you might live forever!</p>');
+              $('#result').append('<p>NOT!</p>'); 
             } else {
               for (var i = 0; i < data.length; i++) {
                 if (data[i].cnt > ethCount) {
@@ -84,13 +85,15 @@
               $('#result').append('<p>No data found... this really doesn\'t bode well for you, ' + name + '!</p>');
             } else {
               $('#result').append('<h1>OH NO</h1>');
+              $('#result').append('<h2>Here\'s a list of horrible demons that will hunt you down and whisk you away to the underworld, and the respective likelihood of each:</h2>');
               var noDupes = [];
               for (var j = 0; j < data2.length; j++) {
                 if (data2[j].percent > 0 && noDupes.indexOf(data2[j].cause_of_death) < 0) {
-                  $('#result').append('<p>There is a ' + data2[j].percent + ' percent chance that you could die from ' + data2[j].cause_of_death.toLowerCase() + '. SpoOooOOOooky!</p>');
+                  $('#result').append('<p>' + data2[j].cause_of_death.toLowerCase() + ': ' + data2[j].percent + '% chance</p>');
                   noDupes.push(data2[j].cause_of_death);
                 }
               }
+              $('#result').append('<h3>SpoOooOOOooky!</h3>');
             }
           },
           error: function(jqXHR, status, error){
@@ -133,8 +136,8 @@
               if (data3.length === 0) {
                 $('#result').append('<h2>And we can\'t even say for sure how much longer you have!</h2>');
               } else {
-                $('#result').append('<h2>But don\'t worry! You only have ' + data3.remaining_life_expectancy.toFixed(2) + ' years left!</h2>');
-                $('#result').append('<h2>And hey, that gives you ' + data3.remaining_life_expectancy.toFixed(2) * 104 + ' more chances to go to weekend brunch--make it count!</h2>');
+                $('#result').append('<h2>BE WARNED: you only have ' + data3.remaining_life_expectancy.toFixed(2) + ' years left!</h2>');
+                $('#result').append('<h2>But hey, that gives you ' + data3.remaining_life_expectancy.toFixed(2) * 104 + ' more chances to go to weekend brunch--make it count!</h2>');
               }
             },
             error: function(jqXHR, status, error){
