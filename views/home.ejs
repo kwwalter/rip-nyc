@@ -49,7 +49,7 @@
                 }
               }
               // no idea why this isn't working, but will come back to it
-              console.log("likelyEthnicity: ", likelyEthnicity);
+              // console.log("likelyEthnicity: ", likelyEthnicity);
               if (likelyEthnicity === "ASIAN AND PACIFIC ISLANDER") {
                 // can't get this working with the escape character, so just going to fake it for now.
                 // this is working when I type the query string into the address bar, but not here for some reason.
@@ -57,12 +57,13 @@
 
                 likelyEthnicity = "NON-HISPANIC WHITE";
               }
+              console.log("likelyEthnicity: ", likelyEthnicity);
             }
         },
         error: function(jqXHR, status, error){
-            console.log(jqXHR);
-            console.log(status);
-            console.log(error);
+          console.log(jqXHR);
+          console.log(status);
+          console.log(error);
         }
       });
       promise.done(function(responseData){
@@ -73,7 +74,7 @@
           url: 'https://data.cityofnewyork.us/resource/uvxr-2jwn.json',
           method: "GET",
           data: {
-            sex: gender,
+            sex: gender.toUpperCase(),
             ethnicity: likelyEthnicity,
             year: 2008
           },
@@ -93,17 +94,63 @@
             }
           },
           error: function(jqXHR, status, error){
-              console.log(jqXHR);
-              console.log(status);
-              console.log(error);
+            console.log(jqXHR);
+            console.log(status);
+            console.log(error);
           }
         });
 
         promise2.done(function(responseData2){
           // console.log("promise2 finished, here's responseData2: ", responseData2);
 
+          // have to generate string for today's date. Found this here: http://stackoverflow.com/questions/1531093/how-to-get-current-date-in-javascript
+          var today = new Date();
+          var dd = today.getDate();
+          var mm = today.getMonth() + 1; //J anuary is 0!
+          var yyyy = today.getFullYear();
+
+          if(dd < 10) {
+            dd = '0' + dd;
+          }
+
+          if(mm < 10) {
+            mm = '0' + mm;
+          }
+
+          today = yyyy + '-' + mm + '-' + dd;
+
+          // need to modify the age so that it matches the right format..
+          // might even be a good idea to have user input their birthday intead. hmm..
+          var newAge = age.toString() + 'y';
+
           // and now time for the third and final ajax call!
-          
+          var promise3 = $.ajax({
+            url: 'http://api.population.io/1.0/life-expectancy/remaining/' + gender + '/United%20States/' + today + '/' + newAge + '/?format=json',
+            method: "GET",
+            success: function(data3){
+              console.log("here's data3: ", data3);
+
+              if (data3.length === 0) {
+                $('#result').append('<h2>And we can\'t even say for sure how much longer you have!</h2>');
+              } else {
+                $('#result').append('<h2>But don\'t worry! You only have ' + data3.remaining_life_expectancy.toFixed(2) + ' years left!</h2>');
+                $('#result').append('<h2>And hey, that gives you ' + data3.remaining_life_expectancy.toFixed(2) * 104 + ' more chances to go to weekend brunch--make it count!</h2>');
+              }
+            },
+            error: function(jqXHR, status, error){
+              console.log(jqXHR);
+              console.log(status);
+              console.log(error);
+            }
+          });
+
+          promise3.done(function(responseData3){
+            console.log("promise3 finished, here's responseData3: ", responseData3);
+          });
+
+          promise3.error(function(responseError3){
+            console.log("promise3 failed, here's responseError3: ", responseError3);
+          });
         });
 
         promise2.error(function(responseError2){
