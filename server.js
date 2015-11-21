@@ -20,6 +20,7 @@ var PORT    = process.env.PORT || 4646,
 
 // SET
 
+// again, might not be using mongoose..
 // mongoose.set('debug', true);
 
 server.set('views', './views');
@@ -58,6 +59,15 @@ server.get('/wicked-secret-test', function(req, res){
 
 server.get('/', function(req, res){
   res.render('home');
+});
+
+server.post('/userinfo', function(req, res){
+  var name = req.body.user.name;
+  var age = req.body.user.age;
+  console.log("name is: ", name);
+  console.log("age is: ", age);
+
+  server.get('')
 });
 
 //////////////////////

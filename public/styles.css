@@ -16,6 +16,14 @@ body {
   padding-top: 1rem;
 }
 
+#home > h3, h4 {
+  text-align: center;
+}
+
+/*#home > form {
+  margin: 0 auto;
+}*/
+
 #welcome > h1 {
   text-align: center;
   font-size: 5rem;
