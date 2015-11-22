@@ -1,23 +1,5 @@
-<div id="home">
-  <h4 class="hidden">...if you dare!</h4>
-  <!-- <form action="/userinfo" method="post"> -->
-  <div class="home-form">
-    <input type="text" id="name" placeholder="Your first name">
-    <input type="number" id="age" min="1" placeholder="Your current age">
-    <select id="gender">
-      <option value="female">female</option>
-      <option value="male">male</option>
-      <!-- <option value="other">other</option> hard to do this one... maybe later -->
-    </select>
-    <input id="submit" type="submit" value="OMG tell me!">
-    <p>DISCLAIMER: There have been reports of ghosts and ghouls in the area. Proceed with caution!</p>
-  </div>
-  <!-- </form> -->
-  <img id="home-img" class="hidden" src="https://media.giphy.com/media/TGHXd9J6mK6sM/giphy.gif" />
-</div>
-<div id="result">
-</div>
-<script type="text/javascript">
+// link this instead of including in the home.ejs? 
+
 $(document).ready(function(){
   $('#submit').click(function(event){
 
@@ -213,4 +195,3 @@ $(document).ready(function(){
     });
   });
 });
-</script>
