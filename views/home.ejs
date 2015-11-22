@@ -169,7 +169,7 @@ $(document).ready(function(){
 
         // and now time for the third and final ajax call!
         var promise3 = $.ajax({
-          url: 'https://api.population.io/1.0/life-expectancy/remaining/' + gender + '/United%20States/' + today + '/' + newAge + '/?format=json',
+          url: 'http://api.population.io/1.0/life-expectancy/remaining/' + gender + '/United%20States/' + today + '/' + newAge + '/?format=json',
           method: "GET",
           success: function(data3){
             console.log("here's data3: ", data3);
