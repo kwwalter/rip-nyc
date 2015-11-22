@@ -90,7 +90,7 @@ server.get('/', function(req, res){
 // failsafe in case someone gets to where they're not supposed to be..
 
 server.use(function(req, res, next){
-  res.write("You've reached the end of the road, pal.");
+  res.write("You\'ve reached the end of the road, pal.");
   res.end();
 });
 

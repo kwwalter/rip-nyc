@@ -1,65 +1,110 @@
 <div id="home">
-  <h3>Enter your name and age below</h3>
-  <h4>...if you dare!</h4>
+  <h4 class="hidden">...if you dare!</h4>
   <!-- <form action="/userinfo" method="post"> -->
-    <input type="text" id="name" placeholder="Your first name">
-    <input type="number" id="age" min="1" placeholder="Your current age">
-    <select id="gender">
-      <option value="female">female</option>
-      <option value="male">male</option>
-      <!-- <option value="other">other</option> hard to do this one... maybe later? -->
-    </select>
-    <input id="submit" type="submit" value="Give me the bad news">
+  <div class="home-form">
+    <form>
+      <input type="text" id="name" placeholder="Your first name">
+      <input type="number" id="age" min="1" placeholder="Your current age">
+      <select id="gender">
+        <option value="female">female</option>
+        <option value="male">male</option>
+        <!-- <option value="other">other</option> hard to do this one... maybe later? -->
+      </select>
+      <input id="submit" type="submit" value="Give me the bad news">
+    </form>
+  </div>
   <!-- </form> -->
   <img id="home-img" class="hidden" src="https://media.giphy.com/media/TGHXd9J6mK6sM/giphy.gif" />
 </div>
 <div id="result">
 </div>
 <script type="text/javascript">
-  $(document).ready(function(){
-    $('#submit').click(function(event){
-      $('div > p').html('');
-      // event.preventDefault(); // what does this do?
-      var name = $('#name').val();
-      var age = $('#age').val();
-      var gender = $('#gender').val();
-      var likelyEthnicity;
-      var ethCount = 0;
+$(document).ready(function(){
+  $('#submit').click(function(event){
 
-      var promise = $.ajax({
-        url:'https://data.cityofnewyork.us/resource/g374-eanh.json',
+    // bunch of jquery stuff to manipulate the page
+    $('body').css({"background-color": "black", "color": "red"});
+    $('#home-img').removeClass("hidden");
+    $('#home-img').css("display", "block");
+    $('h4').removeClass('hidden');
+    $('.welcome-h3').addClass('hidden');
+    $('.welcome-h1').text('REST IN PEACE, NEW YORK CITY! OooOOOoooOooOOoooOOoooO');
+    $('div > p').html('');
+    
+    // event.preventDefault(); // what does this do?
+    var name = $('#name').val();
+    var age = $('#age').val();
+    var gender = $('#gender').val();
+    var likelyEthnicity;
+    var ethCount = 0;
+
+    var promise = $.ajax({
+      url:'https://data.cityofnewyork.us/resource/g374-eanh.json',
+      method: "GET",
+      data: {
+        nm: name.toUpperCase(),
+        gndr: gender.toUpperCase()
+      },
+      success: function(data){
+          console.log("here's the data: ", data);
+
+          if (data.length === 0) {
+            $('#result').append('<p>Your name could not be found on the guest list... there\'s a decent chance that you might live forever!</p>');
+            $('#result').append('<p>NOT!</p>');
+          } else {
+            for (var i = 0; i < data.length; i++) {
+              if (data[i].cnt > ethCount) {
+                likelyEthnicity = data[i].ethcty;
+                ethCount = data[i].cnt;
+                console.log("ethCount is now: ", ethCount);
+              }
+            }
+            // no idea why this isn't working, but will come back to it
+            // console.log("likelyEthnicity: ", likelyEthnicity);
+            if (likelyEthnicity === "ASIAN AND PACIFIC ISLANDER") {
+              // can't get this working with the escape character, so just going to fake it for now.
+              // this is working when I type the query string into the address bar, but not here for some reason.
+              // likelyEthnicity = "ASIAN%20%26%20PACIFIC%20ISLANDER";
+
+              likelyEthnicity = "NON-HISPANIC WHITE";
+            }
+            console.log("likelyEthnicity: ", likelyEthnicity);
+          }
+      },
+      error: function(jqXHR, status, error){
+        console.log(jqXHR);
+        console.log(status);
+        console.log(error);
+      }
+    });
+    promise.done(function(responseData){
+      // console.log("promise finished, here's responseData: ", responseData);
+
+      // beginning second ajax call.
+      var promise2 = $.ajax({
+        url: 'https://data.cityofnewyork.us/resource/uvxr-2jwn.json',
         method: "GET",
         data: {
-          nm: name.toUpperCase(),
-          gndr: gender.toUpperCase()
+          sex: gender.toUpperCase(),
+          ethnicity: likelyEthnicity,
+          year: 2008
         },
-        success: function(data){
-            console.log("here's the data: ", data);
-            $("body").css({"background-color": "black", "color": "red"});
-            $("#home-img").removeClass("hidden");
-            $("#home-img").css("display", "block");
-            if (data.length === 0) {
-              $('#result').append('<p>Your name could not be found on the guest list... there\'s a decent chance that you might live forever!</p>');
-              $('#result').append('<p>NOT!</p>'); 
-            } else {
-              for (var i = 0; i < data.length; i++) {
-                if (data[i].cnt > ethCount) {
-                  likelyEthnicity = data[i].ethcty;
-                  ethCount = data[i].cnt;
-                  console.log("ethCount is now: ", ethCount);
-                }
+        success: function(data2){
+          console.log("here's data2: ", data2);
+          if(data2.length === 0) {
+            $('#result').append('<p>No data found... this really doesn\'t bode well for you, ' + name + '!</p>');
+          } else {
+            $('#result').append('<h1>OH NO</h1>');
+            $('#result').append('<h2>Here\'s a list of horrible demons that will hunt you down and whisk you away to the underworld, and the respective likelihood of each:</h2>');
+            var noDupes = [];
+            for (var j = 0; j < data2.length; j++) {
+              if (data2[j].percent > 0 && noDupes.indexOf(data2[j].cause_of_death) < 0) {
+                $('#result').append('<p>' + data2[j].cause_of_death.toLowerCase() + ': ' + data2[j].percent + '% chance</p>');
+                noDupes.push(data2[j].cause_of_death);
               }
-              // no idea why this isn't working, but will come back to it
-              // console.log("likelyEthnicity: ", likelyEthnicity);
-              if (likelyEthnicity === "ASIAN AND PACIFIC ISLANDER") {
-                // can't get this working with the escape character, so just going to fake it for now.
-                // this is working when I type the query string into the address bar, but not here for some reason.
-                // likelyEthnicity = "ASIAN%20%26%20PACIFIC%20ISLANDER";
-
-                likelyEthnicity = "NON-HISPANIC WHITE";
-              }
-              console.log("likelyEthnicity: ", likelyEthnicity);
             }
+            $('#result').append('<h3>SpoOooOOOooky!</h3>');
+          }
         },
         error: function(jqXHR, status, error){
           console.log(jqXHR);
@@ -67,33 +112,42 @@
           console.log(error);
         }
       });
-      promise.done(function(responseData){
-        // console.log("promise finished, here's responseData: ", responseData);
 
-        // beginning second ajax call.
-        var promise2 = $.ajax({
-          url: 'https://data.cityofnewyork.us/resource/uvxr-2jwn.json',
+      promise2.done(function(responseData2){
+        // console.log("promise2 finished, here's responseData2: ", responseData2);
+
+        // have to generate string for today's date. Found this here: http://stackoverflow.com/questions/1531093/how-to-get-current-date-in-javascript
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //J anuary is 0!
+        var yyyy = today.getFullYear();
+
+        if(dd < 10) {
+          dd = '0' + dd;
+        }
+
+        if(mm < 10) {
+          mm = '0' + mm;
+        }
+
+        today = yyyy + '-' + mm + '-' + dd;
+
+        // need to modify the age so that it matches the right format..
+        // might even be a good idea to have user input their birthday intead. hmm..
+        var newAge = age.toString() + 'y';
+
+        // and now time for the third and final ajax call!
+        var promise3 = $.ajax({
+          url: 'http://api.population.io/1.0/life-expectancy/remaining/' + gender + '/United%20States/' + today + '/' + newAge + '/?format=json',
           method: "GET",
-          data: {
-            sex: gender.toUpperCase(),
-            ethnicity: likelyEthnicity,
-            year: 2008
-          },
-          success: function(data2){
-            console.log("here's data2: ", data2);
-            if(data2.length === 0) {
-              $('#result').append('<p>No data found... this really doesn\'t bode well for you, ' + name + '!</p>');
+          success: function(data3){
+            console.log("here's data3: ", data3);
+
+            if (data3.length === 0) {
+              $('#result').append('<h2>And we can\'t even say for sure how much longer you have!</h2>');
             } else {
-              $('#result').append('<h1>OH NO</h1>');
-              $('#result').append('<h2>Here\'s a list of horrible demons that will hunt you down and whisk you away to the underworld, and the respective likelihood of each:</h2>');
-              var noDupes = [];
-              for (var j = 0; j < data2.length; j++) {
-                if (data2[j].percent > 0 && noDupes.indexOf(data2[j].cause_of_death) < 0) {
-                  $('#result').append('<p>' + data2[j].cause_of_death.toLowerCase() + ': ' + data2[j].percent + '% chance</p>');
-                  noDupes.push(data2[j].cause_of_death);
-                }
-              }
-              $('#result').append('<h3>SpoOooOOOooky!</h3>');
+              $('#result').append('<h2>BE WARNED: you only have ' + data3.remaining_life_expectancy.toFixed(2) + ' years left!</h2>');
+              $('#result').append('<h2>But hey, that gives you ' + data3.remaining_life_expectancy.toFixed(2) * 104 + ' more chances to go to weekend brunch&mdash;have some French toast, it\'s on me!</h2>');
             }
           },
           error: function(jqXHR, status, error){
@@ -103,67 +157,23 @@
           }
         });
 
-        promise2.done(function(responseData2){
-          // console.log("promise2 finished, here's responseData2: ", responseData2);
-
-          // have to generate string for today's date. Found this here: http://stackoverflow.com/questions/1531093/how-to-get-current-date-in-javascript
-          var today = new Date();
-          var dd = today.getDate();
-          var mm = today.getMonth() + 1; //J anuary is 0!
-          var yyyy = today.getFullYear();
-
-          if(dd < 10) {
-            dd = '0' + dd;
-          }
-
-          if(mm < 10) {
-            mm = '0' + mm;
-          }
-
-          today = yyyy + '-' + mm + '-' + dd;
-
-          // need to modify the age so that it matches the right format..
-          // might even be a good idea to have user input their birthday intead. hmm..
-          var newAge = age.toString() + 'y';
-
-          // and now time for the third and final ajax call!
-          var promise3 = $.ajax({
-            url: 'http://api.population.io/1.0/life-expectancy/remaining/' + gender + '/United%20States/' + today + '/' + newAge + '/?format=json',
-            method: "GET",
-            success: function(data3){
-              console.log("here's data3: ", data3);
-
-              if (data3.length === 0) {
-                $('#result').append('<h2>And we can\'t even say for sure how much longer you have!</h2>');
-              } else {
-                $('#result').append('<h2>BE WARNED: you only have ' + data3.remaining_life_expectancy.toFixed(2) + ' years left!</h2>');
-                $('#result').append('<h2>But hey, that gives you ' + data3.remaining_life_expectancy.toFixed(2) * 104 + ' more chances to go to weekend brunch--make it count!</h2>');
-              }
-            },
-            error: function(jqXHR, status, error){
-              console.log(jqXHR);
-              console.log(status);
-              console.log(error);
-            }
-          });
-
-          promise3.done(function(responseData3){
-            console.log("promise3 finished, here's responseData3: ", responseData3);
-          });
-
-          promise3.error(function(responseError3){
-            console.log("promise3 failed, here's responseError3: ", responseError3);
-          });
+        promise3.done(function(responseData3){
+          console.log("promise3 finished, here's responseData3: ", responseData3);
         });
 
-        promise2.error(function(responseError2){
-          console.log("promise2 failed, here's responseError2: ", responseError2);
+        promise3.error(function(responseError3){
+          console.log("promise3 failed, here's responseError3: ", responseError3);
         });
       });
 
-      promise.error(function(responseError){
-        console.log("promise failed, here's responseError: ", responseError);
+      promise2.error(function(responseError2){
+        console.log("promise2 failed, here's responseError2: ", responseError2);
       });
     });
+
+    promise.error(function(responseError){
+      console.log("promise failed, here's responseError: ", responseError);
+    });
   });
+});
 </script>
