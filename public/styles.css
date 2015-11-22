@@ -11,37 +11,54 @@ body {
   transition: 3s;
 }
 
-#home-img {
+#home-img, #welcome-img {
   /*display: block;*/
   height: 300px;
   margin: 0 auto;
   padding-top: 1rem;
+  padding-bottom: 1rem;
+  /*transition: 3s;*/
+}
+
+.centered-img {
+  display: block;
+  /*transition: 3s;*/
 }
 
 .hidden {
   display: none;
+  /*transition: 3s;*/
 }
 
-#home > h3, h4 {
+#home > h3, h4, h5 {
   text-align: center;
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
-#welcome > h3, h4 {
+#welcome > h3, h4, h5 {
   text-align: center;
-  padding: 1rem;
+  padding: 0.5rem;
+}
+
+#result > h5 {
+  font-size: 1rem;
 }
 
 #welcome > h1, #result > h1 {
   text-align: center;
-  font-size: 4rem;
-  padding: 1rem;
+  font-size: 3rem;
+  padding: 0.5rem;
 }
 
 #welcome > h2, #result > h2 {
   text-align: center;
   font-size: 2rem;
-  padding: 1rem;
+  padding: 0.5rem;
+}
+
+#result > h3 {
+  text-align: center;
+  font-size: 1.5rem;
 }
 
 .home-form {
@@ -49,29 +66,49 @@ body {
   text-align: center;
 }
 
-.home-form > form {
+.home-form > input, select {
   display: inline-block;
   margin: 0 auto;
   text-align: left;
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
-/*.drip {
-color: #EEE;
-text-shadow: 4px 4px 1px #300000;
-             4px 6px 1px #400000;
-             4px 8px 1px #500000;
-             4px 10px 1px #600000;
-             4px 12px 1px #700000;
-             4px 14px 2px #800000;
-             4px 16px 2px #900000;
-             4px 18px 2px #A00000;
-             4px 20px 2px #B00000;
-             4px 22px 2px #C00000;
-             4px 24px 3px #D00000;
-             4px 26px 3px #E00000;
-             4px 28px 3px #F00000;
-             4px 30px 3px #AA0000;
-             ......and so on, until
-             4px 60px 5px #FF0000;
-}*/
+.home-form > p {
+  padding-top: 5rem;
+  font-size: 0.5rem;
+  text-align: center;
+}
+
+.shadow {
+  text-shadow: 1px 1px 0 #FFF,
+               -1px -1px 0 #FFF,
+               1px -1px 0 #FFF,
+               -1px 1px 0 #FFF,
+               1px 1px 0 #FFF
+}
+
+.demons {
+  margin: 0 auto;
+  width: 80%;
+  background: darkgrey;
+  color: #FFF;
+  text-shadow: 1px 1px 0 #000,
+               -1px -1px 0 #000,
+               1px -1px 0 #000,
+               -1px 1px 0 #000,
+               1px 1px 0 #000
+}
+
+.image {
+   position: relative;
+   width: 10%;
+   height: 10%;
+}
+
+.image > p {
+   position: absolute;
+   font-weight: bold;
+   top: 200px;
+   left: 0;
+   width: 100%;
+}
