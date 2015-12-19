@@ -22,21 +22,18 @@ body {
 }
 
 #home-img, #welcome-img {
-  height: 300px;
+  width: 85%;
   margin: 0 auto;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  /*transition: 3s;*/
 }
 
 .centered-img {
   display: block;
-  /*transition: 3s;*/
 }
 
 .hidden {
   display: none;
-  /*transition: 3s;*/
 }
 
 #home > h3, h4, h5 {
@@ -55,19 +52,19 @@ body {
 
 #welcome > h1, #result > h1 {
   text-align: center;
-  font-size: 3rem;
+  font-size: 4rem;
   padding: 0.5rem;
 }
 
 #welcome > h2, #result > h2 {
   text-align: center;
-  font-size: 2rem;
+  /*font-size: 2rem;*/
   padding: 0.5rem;
 }
 
 #result > h3 {
   text-align: center;
-  font-size: 1.5rem;
+  /*font-size: 1.5rem;*/
 }
 
 #result > h1 {
@@ -89,7 +86,7 @@ body {
 
 .home-form > p {
   padding-top: 5rem;
-  font-size: 0.5rem;
+  /*font-size: 0.5rem;*/
   text-align: center;
 }
 
@@ -105,7 +102,7 @@ body {
   margin: 0.5rem auto;
   width: 50%;
   background: #4D4D4D;
-  font-size: 1.25rem;
+  /*font-size: 1.25rem;*/
   color: #FFF;
   text-shadow: 1px 1px 0 #af111c,
                -1px -1px 0 #af111c,
@@ -115,7 +112,8 @@ body {
   padding: 1rem;
 }
 
-.image {
+/* for text overlay on tombstone image. backburner for now */
+/*.image {
    position: relative;
    width: 10%;
    height: 10%;
@@ -127,7 +125,7 @@ body {
    top: 200px;
    left: 0;
    width: 100%;
-}
+}*/
 
 .spookify {
   font-family: 'FaceFears', 'IstokWeb', sans-serif;

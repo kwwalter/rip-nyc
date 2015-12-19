@@ -10,7 +10,7 @@ $(document).ready(function(){
 
     // bunch of jquery stuff to manipulate the page
     $('body').css({
-      'background-image': 'url("https://media.giphy.com/media/XNocekEOukKyc/giphy.gif")',
+      'background-image': 'url("assets/images/background.gif")',
       'background-repeat': 'repeat',
       'color': '#af111c'
       // 'font-family': '"DoubleFeature", "Istok Web", sans-serif'
