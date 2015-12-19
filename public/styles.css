@@ -1,11 +1,11 @@
 @font-face {
-	font-family: DoubleFeature;
-  src: url('fonts/DoubleFeature21.ttf');
+	font-family: FaceFears;
+  src: url('fonts/DK Face Your Fears II.ttf');
 }
 
 @font-face {
-	font-family: FaceFears;
-  src: url('fonts/DK Face Your Fears II.ttf');
+	font-family: IstokWeb;
+  src: url('fonts/IstokWeb-Regular.ttf');
 }
 
 * {
@@ -16,13 +16,12 @@
 
 body {
   background-color: floralwhite;
-  font-family: 'Istok Web', sans-serif;
+  font-family: 'IstokWeb', sans-serif;
   color: steelblue;
   transition: 3s;
 }
 
 #home-img, #welcome-img {
-  /*display: block;*/
   height: 300px;
   margin: 0 auto;
   padding-top: 1rem;
@@ -131,5 +130,5 @@ body {
 }
 
 .spookify {
-  font-family: 'FaceFears', 'Istok Web', sans-serif;
+  font-family: 'FaceFears', 'IstokWeb', sans-serif;
 }
