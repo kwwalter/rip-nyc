@@ -1,10 +1,12 @@
-// link this instead of including in the home.ejs? 
-
 $(document).ready(function(){
   $('#submit').click(function(event){
 
     // clear the previous results, if someone wants to play again..
     $('#result').empty();
+
+    // set some bgm.. but how to prevent it from appending multiple times?
+    $('#home').append('<embed class="bgm" height="0" width="0" src="http://www.youtube.com/embed/O2RP1GivOqo?autoplay=1&loop=1&playlist=yaWkjUKSyLA" />');
+
 
     // bunch of jquery stuff to manipulate the page
     $('body').css({
@@ -88,7 +90,7 @@ $(document).ready(function(){
           if(data2.length === 0) {
             $('#result').append('<h5>No cause of death data found... this really doesn\'t bode well for you, ' + name + '!</h5>');
           } else {
-            $('#result').append('<h1>OH NooOoOooOOO</h1>');
+            $('#result').append('<h1>OH NooOoOooOOO! You\'ve entered a haunted domain!</h1>');
             $('#result').append('<h2>Here\'s a list of horrible demons that will hunt you down and whisk you away to the underworld, and the respective likelihood of each:</h2>');
             $('#result').append('<div class="demons"></div>');
             var noDupes = [];
