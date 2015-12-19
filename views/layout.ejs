@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
     <title>RIP NYC</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -10,21 +10,23 @@
     <link rel="stylesheet" href="/styles.css">
   </head>
   <body>
-    <div id="welcome">
-      <h1>Hey all you Ravenous, Inquisitive People of NYC!</h1>
-      <h2>How many AMAZING brunches will YOU eat in the next calendar year?</h2>
-      <h3>Enter your name, age, and gender to find out!</h3>
-      <img id="welcome-img" class="centered-img" src="assets/images/brunch.jpg" />
+    <div class="container-fluid">
+      <div id="welcome">
+        <h1 class="welcome-h1">Hey all you Ravenous, Inquisitive People of NYC!</h1>
+        <h2 class="welcome-h2">How many AMAZING brunches will YOU eat in the next calendar year?</h2>
+        <h3>Enter your name, age, and gender to find out!</h3>
+        <img id="welcome-img" class="centered-img" src="assets/images/brunch.jpg" />
+      </div>
+      <%- body %>
     </div>
-    <%- body %>
-    <div id="footer">
-      <span id="copyright">
-        <i class="fa fa-copyright fa-1x"></i> Kevin Walter, 2015
-      </span>
-      <span id="icons">
-        <a href="https://github.com/kwwalter/rip-nyc" target="_blank"><i class="fa fa-github fa-2x"></i></a>
-      </span>
-    </div>
+  <div id="footer">
+    <span id="copyright">
+      <i class="fa fa-copyright fa-1x"></i> Kevin Walter, 2015
+    </span>
+    <span id="icons">
+      <a href="https://github.com/kwwalter/rip-nyc" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+    </span>
+  </div>
     <script type="text/javascript" src="/app.js"></script>
   </body>
 </html>

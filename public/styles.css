@@ -19,7 +19,6 @@ body {
   font-family: 'IstokWeb', sans-serif;
   color: steelblue;
   transition: 3s;
-	padding-bottom: 3rem;
 }
 
 #content {
@@ -52,25 +51,25 @@ body {
 }
 
 #result > h5 {
-  font-size: 1rem;
+  /*font-size: 1rem;*/
 }
 
 #welcome > h1, #result > h1 {
   text-align: center;
-  font-size: 4rem;
+  /*font-size: 4rem;*/
 	font-weight: bolder;
   padding: 0.5rem;
 }
 
 #welcome > h2, #result > h2 {
   text-align: center;
-  font-size: 2.5rem;
+  /*font-size: 2.5rem;*/
   padding: 0.5rem;
 }
 
 #result > h3 {
   text-align: center;
-  font-size: 1.5rem;
+  /*font-size: 1.5rem;*/
 }
 
 #result > h1 {
@@ -84,15 +83,28 @@ body {
 }
 
 .home-form > input, select {
-  display: inline-block;
-  margin: 0 auto;
+  margin: .5rem auto;
+	width: 50%;
   text-align: left;
   padding: 0.5rem;
 }
 
+#gender {
+	width: 50%;
+}
+
+#submit {
+	transition: .2s;
+}
+
+#submit:hover {
+	background: steelblue;
+	color: white;
+}
+
 .home-form > p {
   padding-top: 5rem;
-  font-size: 0.5rem;
+  /*font-size: 0.5rem;*/
   text-align: center;
 }
 
@@ -108,7 +120,7 @@ body {
   margin: 0.5rem auto;
   width: 50%;
   background: #4D4D4D;
-  font-size: 1.25rem;
+  /*font-size: 1.25rem;*/
   color: #FFF;
   text-shadow: 1px 1px 0 #af111c,
                -1px -1px 0 #af111c,
@@ -142,9 +154,6 @@ body {
 	width: 100%;
 	background: steelblue;
 	color: white;
-	position: fixed;
-	bottom: 0;
-	left: 0;
 }
 
 #copyright {
@@ -162,5 +171,5 @@ body {
 }
 
 #icons > a > i:hover {
-	color: black; 
+	color: black;
 }

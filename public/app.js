@@ -1,24 +1,28 @@
 $(document).ready(function(){
   $('#submit').click(function(event){
+    event.preventDefault();
 
     // clear the previous results, if someone wants to play again..
     $('#result').empty();
 
-    // set some bgm.. but how to prevent it from appending multiple times?
+    // set some bgm the first time the submit button is clicked..
     $('#home').append('<embed class="bgm" height="0" width="0" src="http://www.youtube.com/embed/O2RP1GivOqo?autoplay=1&loop=1&playlist=yaWkjUKSyLA" />');
 
+    // if this is the second, third, fourth (etc) time a user clicks submit, it'll have the class submit-again, so should be able to manipulate the DOM as such (but not working yet--sort of spooky to hear it played over and over, no?):
+    // $('.submit-again').click(function(event2){
+    //   event2.preventDefault();
+    //   $('.bgm').remove();
+    // });
 
     // bunch of jquery stuff to manipulate the page
     $('body').css({
       'background-image': 'url("assets/images/background.gif")',
       'background-repeat': 'repeat',
       'color': '#af111c'
-      // 'font-family': '"DoubleFeature", "Istok Web", sans-serif'
     });
     $('#home-img').removeClass("hidden");
     $('#home-img').css("display", "block");
     $('h4').removeClass('hidden');
-    // $('.welcome-h3').addClass('hidden');
     $('.welcome-h1').text('REST IN PEACE, NEW YORK CITY!');
     $('.welcome-h2').text('How many brunches do you have left?');
     $('#submit').val('Give me the bad news!');
@@ -27,14 +31,27 @@ $(document).ready(function(){
     $('div > p').remove();
     $(':header').addClass('shadow');
     $(':header').addClass('spookify');
+    // $('#submit').addClass('submit-again');
+    $('label').css('font-family', 'FaceFears');
+    $('#footer').css({
+      'background': '#4D4D4D',
+      'color': 'white'
+    });
+    // $('#icons > a > i:hover').css("color", "#af111c");
 
-    // event.preventDefault(); // what does this do
+    // say hello
+    $('#result').append('<h1>OH NooOoOooOOO! You\'ve entered a haunted domain!</h1>');
+
+    // get the values from the form
     var name = $('#name').val();
     var age = $('#age').val();
     var gender = $('#gender').val();
+
+    // couple other variables needed for below
     var likelyEthnicity;
     var ethCount = 0;
 
+    // first ajax call
     var promise = $.ajax({
       url:'https://data.cityofnewyork.us/resource/g374-eanh.json',
       method: "GET",
@@ -46,7 +63,7 @@ $(document).ready(function(){
           console.log("here's the data: ", data);
 
           if (data.length === 0) {
-            $('#result').append('<h5>Your name could not be found on the guest list... there\'s a decent chance that you might live forever!</h5>');
+            $('#result').append('<h3>Your name could not be found on the guest list... there\'s a decent chance that you might live forever!</h3>');
           } else {
             for (var i = 0; i < data.length; i++) {
               if (data[i].cnt > ethCount) {
@@ -90,7 +107,6 @@ $(document).ready(function(){
           if(data2.length === 0) {
             $('#result').append('<h5>No cause of death data found... this really doesn\'t bode well for you, ' + name + '!</h5>');
           } else {
-            $('#result').append('<h1>OH NooOoOooOOO! You\'ve entered a haunted domain!</h1>');
             $('#result').append('<h2>Here\'s a list of horrible demons that will hunt you down and whisk you away to the underworld, and the respective likelihood of each:</h2>');
             $('#result').append('<div class="demons"></div>');
             var noDupes = [];
@@ -102,7 +118,7 @@ $(document).ready(function(){
                   $('.demons').append('<p>' + data2[j].cause_of_death.toLowerCase() + ': ' + data2[j].percent + '% chance</p>');
                 }
 
-                // tried to append an image and overlay text, but too time-consuming for now..
+                // to append tombstone image and overlay text..
                 // $('#result').append(
                 //   '<div class="image"><img src="/Users/kevinwalter/src/unit_04_projects/rip_nyc/public/tombstone.png" /><p>' + data2[j].cause_of_death + '<br />' + data2[j].percent + '% chance</p></div>');
 
@@ -141,7 +157,6 @@ $(document).ready(function(){
         today = yyyy + '-' + mm + '-' + dd;
 
         // need to modify the age so that it matches the right format..
-        // might even be a good idea to have user input their birthday intead. hmm..
         var newAge;
         if (age < 10) {
           newAge = '0' + age.toString() + 'y00m00d';
@@ -181,6 +196,8 @@ $(document).ready(function(){
           $('#name').val('');
           $('#age').val('');
         });
+
+    // handling of all the potential errors from ajax calls..
 
         promise3.error(function(responseError3){
           console.log("promise3 failed, here's responseError3: ", responseError3);
