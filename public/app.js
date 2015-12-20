@@ -14,7 +14,8 @@ $(document).ready(function(){
     //   $('.bgm').remove();
     // });
 
-    // bunch of jquery stuff to manipulate the page
+    // bunch of jquery stuff to manipulate the page (and change the favicon)
+    $('#favicon').attr("href", "assets/skull.ico"); 
     $('body').css({
       'background-image': 'url("assets/images/background.gif")',
       'background-repeat': 'repeat',
