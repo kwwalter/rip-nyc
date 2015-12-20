@@ -15,7 +15,7 @@ $(document).ready(function(){
     // });
 
     // bunch of jquery stuff to manipulate the page (and change the favicon)
-    $('#favicon').attr("href", "assets/skull.ico"); 
+    $('#favicon').attr("href", "assets/skull.ico");
     $('body').css({
       'background-image': 'url("assets/images/background.gif")',
       'background-repeat': 'repeat',
@@ -61,7 +61,7 @@ $(document).ready(function(){
         gndr: gender.toUpperCase()
       },
       success: function(data){
-          console.log("here's the data: ", data);
+          // console.log("here's the data: ", data);
 
           if (data.length === 0) {
             $('#result').append('<h3>Your name could not be found on the guest list... there\'s a decent chance that you might live forever!</h3>');
@@ -70,7 +70,7 @@ $(document).ready(function(){
               if (data[i].cnt > ethCount) {
                 likelyEthnicity = data[i].ethcty;
                 ethCount = data[i].cnt;
-                console.log("ethCount is now: ", ethCount);
+                // console.log("ethCount is now: ", ethCount);
               }
             }
             // no idea why this isn't working, but will come back to it
@@ -82,7 +82,7 @@ $(document).ready(function(){
 
               likelyEthnicity = "NON-HISPANIC WHITE";
             }
-            console.log("likelyEthnicity: ", likelyEthnicity);
+            // console.log("likelyEthnicity: ", likelyEthnicity);
           }
       },
       error: function(jqXHR, status, error){
@@ -104,9 +104,9 @@ $(document).ready(function(){
           year: 2008
         },
         success: function(data2){
-          console.log("here's data2: ", data2);
+          // console.log("here's data2: ", data2);
           if(data2.length === 0) {
-            $('#result').append('<h5>No cause of death data found... this really doesn\'t bode well for you, ' + name + '!</h5>');
+            $('#result').append('<h3>No cause of death data found... this really doesn\'t bode well for you, ' + name + '!</h3>');
           } else {
             $('#result').append('<h2>Here\'s a list of horrible demons that will hunt you down and whisk you away to the underworld, and the respective likelihood of each:</h2>');
             $('#result').append('<div class="demons"></div>');
@@ -161,10 +161,10 @@ $(document).ready(function(){
         var newAge;
         if (age < 10) {
           newAge = '0' + age.toString() + 'y00m00d';
-          console.log("new age is: ", newAge);
+          // console.log("new age is: ", newAge);
         } else {
           newAge = age.toString() + 'y00m00d';
-          console.log("new age is: ", newAge);
+          // console.log("new age is: ", newAge);
         }
 
         // and now time for the third and final ajax call!
@@ -172,7 +172,7 @@ $(document).ready(function(){
           url: 'http://api.population.io/1.0/life-expectancy/remaining/' + gender + '/United%20States/' + today + '/' + newAge + '/?format=json',
           method: "GET",
           success: function(data3){
-            console.log("here's data3: ", data3);
+            // console.log("here's data3: ", data3);
 
             if (data3.statusText === "BAD REQUEST") {
               $('#result').append('<h2>And we can\'t even say for sure how much longer you have! How terrible!</h2>');
@@ -191,7 +191,7 @@ $(document).ready(function(){
         });
 
         promise3.done(function(responseData3){
-          console.log("promise3 finished, here's responseData3: ", responseData3);
+          // console.log("promise3 finished, here's responseData3: ", responseData3);
 
           // just clearing out the form values so the user can start again..
           $('#name').val('');
