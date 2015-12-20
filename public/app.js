@@ -106,7 +106,7 @@ $(document).ready(function(){
         success: function(data2){
           // console.log("here's data2: ", data2);
           if(data2.length === 0) {
-            $('#result').append('<h3>No cause of death data found... this really doesn\'t bode well for you, ' + name + '!</h3>');
+            $('#result').append('<h3>No cause of death data found. This really doesn\'t bode well for you, ' + name + '! Let\'s just assume that you\'re going to die of loneliness... mwahahaha!</h3>');
           } else {
             $('#result').append('<h2>Here\'s a list of horrible demons that will hunt you down and whisk you away to the underworld, and the respective likelihood of each:</h2>');
             $('#result').append('<div class="demons"></div>');
